@@ -39,6 +39,6 @@ workflow hmmer_wf {
   }
 
   output {
-    File model = run_nhmmer.stats
+    File model = run_nhmmer.model
   }
 }
