@@ -32,13 +32,13 @@ workflow hmmer_wf {
     File reference
   }
 
-  call run_hmmer {
+  call run_nhmmer {
     input:
       hmm = hmm,
       reference = reference
   }
 
   output {
-    File model = run_hmmer.stats
+    File model = run_nhmmer.stats
   }
 }
