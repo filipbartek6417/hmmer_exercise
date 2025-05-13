@@ -10,6 +10,8 @@ task run_nhmmer {
     set -e
 
     apt-get update && apt-get install -y apt-utils conda python3 pip
+    source /opt/conda/etc/profile.d/conda.sh
+    conda -V
     conda install bioconda::hmmer
     nhmmer --cpu 32 --notextw --noali --tblout TR.model.out ~{hmm} ~{reference}
   }
