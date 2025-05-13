@@ -33,6 +33,7 @@ workflow hmmer_wf {
   input {
     File hmm
     File reference
+    File environment_yml
   }
 
   call run_nhmmer {
