@@ -4,13 +4,14 @@ task run_nhmmer {
   input {
     File hmm
     File reference
+    File environment_yml
   }
 
   command {
     set -e
 
-    apt-get update && apt-get install -y apt-utils conda python3 pip
-    source /opt/conda/etc/profile.d/conda.sh
+    conda env create -f ~{environment_yml} -p ./env || conda env update -f ~{environment_yml} -p ./env
+    source activate ./env
     conda -V
     conda install bioconda::hmmer
     nhmmer --cpu 32 --notextw --noali --tblout TR.model.out ~{hmm} ~{reference}
@@ -21,7 +22,7 @@ task run_nhmmer {
   }
 
   runtime {
-    docker: "ubuntu:20.04"
+    docker: "continuumio/miniconda3"
     memory: "64G"
     disks: "local-disk 300 SSD"
     cpu: 32
@@ -37,7 +38,8 @@ workflow hmmer_wf {
   call run_nhmmer {
     input:
       hmm = hmm,
-      reference = reference
+      reference = reference,
+      environment_yml = environment_yml
   }
 
   output {
